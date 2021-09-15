@@ -20,13 +20,14 @@ class DashBoard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Material(
               color: Theme.of(context).primaryColor,
-              child: InkWell(//sensação de clique no botão
+              child: InkWell(
+                //sensação de clique no botão
                 //tem evento para chamar outra tela, container nao tem
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) =>
-                          ConctactsList(), //navega para contatos
+                          ContactsList(), //navega para contatos
                     ),
                   );
                 },
