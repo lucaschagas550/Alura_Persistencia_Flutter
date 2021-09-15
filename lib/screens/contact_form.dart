@@ -1,3 +1,4 @@
+import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class _ContactFormState extends State<ContactForm> {
 
   final TextEditingController _accountNumberController =
       TextEditingController();
+
+  final ContactDao _dao = ContactDao();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +59,9 @@ class _ContactFormState extends State<ContactForm> {
                     final int? accountNumber =
                         int.tryParse(_accountNumberController.text);
                     final Contact newContact = Contact(0, name, accountNumber!);
-                    Navigator.pop(context, newContact);
+                    _dao.save(newContact).then(
+                          (id) => Navigator.pop(context),
+                        );
                   },
                 ),
               ),
