@@ -9,6 +9,10 @@ class Transaction {
     this.contact,
   );
 
+  Transaction.fromJson(Map<String, dynamic> json)
+      : value = json['value'] as double,
+        contact = Contact.fromJson(json['contact'] as Map<String, dynamic>);
+
   @override
   String toString() {
     return 'Transaction{value: $value, contact: $contact}';
