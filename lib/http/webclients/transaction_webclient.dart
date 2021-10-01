@@ -14,7 +14,7 @@ class TransactionWebClient {
         .toList();
   }
 
-  Future<Transaction> save(Transaction transaction) async {
+  Future<Transaction> save(Transaction transaction, String password) async {
     Map<String, dynamic> transactionMap = _toMap(transaction);
     final String transactionJson = jsonEncode(transactionMap);
     final Response response = await client.post(Uri.parse(baseUrl),

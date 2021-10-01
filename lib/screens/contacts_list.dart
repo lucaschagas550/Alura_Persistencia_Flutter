@@ -1,3 +1,4 @@
+import 'package:bytebank/components/centered_message.dart';
 import 'package:bytebank/components/progress.dart';
 import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
@@ -34,23 +35,28 @@ class _ContactsListState extends State<ContactsList> {
               //Recomendodavel para download 10% completo, 20% completo retorna valor
               break;
             case ConnectionState.done:
-              final List<Contact> contacts = snapshot.data as List<Contact>;
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final Contact contact = contacts[index];
-                  return _ContactItem(
-                    contact,
-                    onClick: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => TransactionForm(contact),
-                        ),
+              if (snapshot.hasData) {
+                final List<Contact> contacts = snapshot.data as List<Contact>;
+                if (contacts.isNotEmpty) {
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      final Contact contact = contacts[index];
+                      return _ContactItem(
+                        contact,
+                        onClick: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => TransactionForm(contact),
+                            ),
+                          );
+                        },
                       );
                     },
+                    itemCount: contacts.length,
                   );
-                },
-                itemCount: contacts.length,
-              );
+                }
+              }
+              return CenteredMessage('No contacts found', icon: Icons.warning);
           }
           return Text('Unknown error');
         },
