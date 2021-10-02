@@ -23,8 +23,21 @@ class TransactionWebClient {
           'password': '1000',
         },
         body: transactionJson);
+
+    if (response.statusCode != 200) {
+      _throwHttpError(response.statusCode);
+    }
+
     return Transaction.fromJson(jsonDecode(response.body));
   }
+
+  void _throwHttpError(int statusCode) =>
+      throw Exception(_statusCodeResponse[statusCode]);
+
+  static final Map<int, String> _statusCodeResponse = {
+    400: 'there was an error submitting transaction',
+    401: 'authentication failed'
+  };
 
   Map<String, dynamic> _toMap(Transaction transaction) {
     final Map<String, dynamic> transactionMap = {

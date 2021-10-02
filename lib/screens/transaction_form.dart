@@ -1,3 +1,5 @@
+import 'package:bytebank/components/centered_message.dart';
+import 'package:bytebank/components/response_dialog.dart';
 import 'package:bytebank/components/transaction_auth_dialog.dart';
 import 'package:bytebank/http/webclients/transaction_webclient.dart';
 import 'package:bytebank/models/contact.dart';
@@ -61,19 +63,27 @@ class _TransactionFormState extends State<TransactionForm> {
                   child: ElevatedButton(
                     child: Text('Transfer'),
                     onPressed: () {
-                      final double? value =
-                          double.tryParse(_valueController.text);
-                      final transactionCreated =
-                          Transaction(value!, widget.contact);
-                      showDialog(
-                          context: context,
-                          builder: (contextDialog) {
-                            return TransactionAuthDialog(
-                              onConfirm: (String password) {
-                                _save(transactionCreated, password, context);
-                              },
-                            );
-                          });
+                      if (_valueController.text.isNotEmpty) {
+                        final double? value =
+                            double.tryParse(_valueController.text);
+                        final transactionCreated =
+                            Transaction(value!, widget.contact);
+                        showDialog(
+                            context: context,
+                            builder: (contextDialog) {
+                              return TransactionAuthDialog(
+                                onConfirm: (String password) {
+                                  _save(transactionCreated, password, context);
+                                },
+                              );
+                            });
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (contextDialog) {
+                              return FailureDialog('Field value this empty');
+                            });
+                      }
                     },
                   ),
                 ),
@@ -88,10 +98,22 @@ class _TransactionFormState extends State<TransactionForm> {
   void _save(Transaction transactionCreated, String password,
       BuildContext context) async {
     await Future.delayed(Duration(seconds: 1));
-    _webClient.save(transactionCreated, password).then((transaction) {
-      if (transaction != null) {
-        Navigator.pop(context);
-      }
-    });
+    final Transaction transaction =
+        await _webClient.save(transactionCreated, password).catchError((e) {
+      showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog(e.message);
+          });
+    }, test: (e) => e is Exception);
+
+    if (transaction != null) {
+      await showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return SuccessDialog('sucessful transaction');
+          });
+      Navigator.pop(context);
+    }
   }
 }
