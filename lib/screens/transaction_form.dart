@@ -1,4 +1,5 @@
-import 'package:bytebank/components/centered_message.dart';
+import 'dart:async';
+
 import 'package:bytebank/components/response_dialog.dart';
 import 'package:bytebank/components/transaction_auth_dialog.dart';
 import 'package:bytebank/http/webclients/transaction_webclient.dart';
@@ -78,11 +79,8 @@ class _TransactionFormState extends State<TransactionForm> {
                               );
                             });
                       } else {
-                        showDialog(
-                            context: context,
-                            builder: (contextDialog) {
-                              return FailureDialog('Field value this empty');
-                            });
+                        _showFailureMessage(context,
+                            message: 'Field value this empty');
                       }
                     },
                   ),
@@ -97,16 +95,15 @@ class _TransactionFormState extends State<TransactionForm> {
 
   void _save(Transaction transactionCreated, String password,
       BuildContext context) async {
-    await Future.delayed(Duration(seconds: 1));
-    final Transaction transaction =
-        await _webClient.save(transactionCreated, password).catchError((e) {
-      showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return FailureDialog(e.message);
-          });
-    }, test: (e) => e is Exception);
+    Transaction transaction =
+        await _send(transactionCreated, password, context);
+    //erros especificos e mensagens espeficicas
 
+    _showSucessFullMessage(transaction, context);
+  }
+
+  Future<void> _showSucessFullMessage(
+      Transaction transaction, BuildContext context) async {
     if (transaction != null) {
       await showDialog(
           context: context,
@@ -115,5 +112,30 @@ class _TransactionFormState extends State<TransactionForm> {
           });
       Navigator.pop(context);
     }
+  }
+
+  Future<Transaction> _send(Transaction transactionCreated, String password,
+      BuildContext context) async {
+    final Transaction transaction =
+        await _webClient.save(transactionCreated, password).catchError((e) {
+      _showFailureMessage(context,
+          message: 'timeout submitting the transaction');
+    }, test: (e) => e is TimeoutException).catchError((e) {
+      _showFailureMessage(context, message: e.message);
+    }, test: (e) => e is HttpException).catchError((e) {
+      _showFailureMessage(context);
+    });
+    //erros especificos e mensagens espeficicas
+    return transaction;
+  }
+
+  void _showFailureMessage(BuildContext context,
+      {String message = 'Unkown error'}) {
+    //parametro opcional
+    showDialog(
+        context: context,
+        builder: (contextDialog) {
+          return FailureDialog('Unknown error');
+        });
   }
 }
