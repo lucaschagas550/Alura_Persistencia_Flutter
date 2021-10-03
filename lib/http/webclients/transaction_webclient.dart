@@ -16,6 +16,9 @@ class TransactionWebClient {
   Future<Transaction> save(Transaction transaction, String password) async {
     Map<String, dynamic> transactionMap = _toMap(transaction);
     final String transactionJson = jsonEncode(transactionMap);
+
+    await Future.delayed(Duration(seconds: 10));
+
     final Response response = await client.post(Uri.parse(baseUrl),
         headers: {
           'Content-type': 'application/json',
@@ -24,18 +27,27 @@ class TransactionWebClient {
         body: transactionJson);
 
     if (response.statusCode != 200) {
-      _throwHttpError(response.statusCode);
+      _getMessage(response.statusCode);
     }
 
     return Transaction.fromJson(jsonDecode(response.body));
   }
 
-  void _throwHttpError(int statusCode) =>
+  String _getMessage(int statusCode) {
+    if (_statusCodeResponse.containsKey(statusCode)) {
+      return _throwHttpError(statusCode);
+    } else {
+      return 'Unknown error';
+    }
+  }
+
+  String _throwHttpError(int statusCode) =>
       throw Exception(_statusCodeResponse[statusCode]);
 
   static final Map<int, String> _statusCodeResponse = {
     400: 'there was an error submitting transaction',
-    401: 'authentication failed'
+    401: 'authentication failed',
+    409: 'transaction always exists'
   };
 
   Map<String, dynamic> _toMap(Transaction transaction) {
