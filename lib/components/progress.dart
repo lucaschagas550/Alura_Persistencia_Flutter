@@ -4,6 +4,7 @@ class Progress extends StatelessWidget {
   final String message;
 
   Progress({this.message = 'Loading'});
+  //por padrão o progresso recebe essa mensagem se estiver vazio
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,13 @@ class Progress extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircularProgressIndicator(),
-          Text(message),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              message,
+              style: TextStyle(fontSize: 16.0),
+            ),
+          ),
         ],
       ),
     );

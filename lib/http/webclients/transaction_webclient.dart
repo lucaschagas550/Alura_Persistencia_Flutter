@@ -17,7 +17,7 @@ class TransactionWebClient {
     Map<String, dynamic> transactionMap = _toMap(transaction);
     final String transactionJson = jsonEncode(transactionMap);
 
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(Duration(seconds: 5));
 
     final Response response = await client.post(Uri.parse(baseUrl),
         headers: {
