@@ -1,6 +1,6 @@
 import 'package:bytebank/screens/contacts_list.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'transactions_list.dart';
 
 class DashBoard extends StatelessWidget {
@@ -104,6 +104,8 @@ class _FeatureItem extends StatelessWidget {
 
 //Funcao que chama a tela de contatos
 void _showContactsList(BuildContext context) {
+  // FirebaseCrashlytics.instance.crash(); //crash o app para relatorio no crashlytics
+
   Navigator.of(context).push(
     MaterialPageRoute(
       builder: (context) => ContactsList(),
