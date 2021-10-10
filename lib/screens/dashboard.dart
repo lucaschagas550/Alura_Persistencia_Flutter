@@ -104,7 +104,8 @@ class _FeatureItem extends StatelessWidget {
 
 //Funcao que chama a tela de contatos
 void _showContactsList(BuildContext context) {
-  // FirebaseCrashlytics.instance.crash(); //crash o app para relatorio no crashlytics
+  // FirebaseCrashlytics.instance
+  //     .crash(); //crash o app para relatorio no crashlytics
 
   Navigator.of(context).push(
     MaterialPageRoute(
