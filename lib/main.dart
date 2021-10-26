@@ -21,7 +21,7 @@ Future<void> main() async {
   }
 
 // previne o flutter com erros do dart
-  runZonedGuarded<Future<void>>(() async { 
+  runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     // The following lines are the same as previously explained in "Handling uncaught errors"
@@ -41,12 +41,19 @@ class BytebankApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false, //remove canto superior a flag de debug
       theme: ThemeData(
-          primaryColor: Colors.green[900],
-          accentColor: Colors.blueAccent[700],
-          buttonTheme: ButtonThemeData(
-            buttonColor: Colors.blueAccent[700],
-            textTheme: ButtonTextTheme.primary,
-          )),
+        primaryColor: Colors.green[900],
+        colorScheme: ColorScheme.light(primary: Colors.green.shade900),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.green[700],
+          textTheme: ButtonTextTheme.primary,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.green[700],
+          ),
+        ),
+      ),
+
       home: DashBoard(),
     );
   }
