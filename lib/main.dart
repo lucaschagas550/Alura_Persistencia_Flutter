@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:bytebank/components/theme.dart';
 import 'package:bytebank/screens/counter.dart';
+import 'package:bytebank/screens/name.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'screens/dashboard.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,13 +38,24 @@ Future<void> main() async {
   // findAll().then((transactions) => print('new transactions $transactions'));
 }
 
+class LogObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase cubit, Change change) {
+    print("${cubit.runtimeType} > $change");
+    super.onChange(cubit, change);
+  }
+}
+
 class BytebankApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // na pratica evitar log do genero, pois pde vazar informações
+    Bloc.observer = LogObserver();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: bytebankTheme,
-      home: CounterContainer(),
+      home: NameContainer(),
     );
   }
 }

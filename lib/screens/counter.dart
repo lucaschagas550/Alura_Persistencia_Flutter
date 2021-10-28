@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //Gerenciador de estado e o estado atual
+//Exemplo de contador utilizando bloc em duas variações
 class CounterCubit extends Cubit<int> {
   CounterCubit() : super(0);
 
@@ -13,7 +14,8 @@ class CounterCubit extends Cubit<int> {
 class CounterContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => CounterCubit(), child: CounterView());
+    return BlocProvider(
+        create: (context) => CounterCubit(), child: CounterView());
   }
 }
 
@@ -23,7 +25,7 @@ class CounterView extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nosso contador"),
+        title: Text("Counter"),
       ),
       body: Center(
         child: BlocBuilder<CounterCubit, int>(builder: (context, state) {

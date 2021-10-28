@@ -12,7 +12,7 @@ final bytebankTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      primary: Colors.green[700],
+      primary: Colors.blue[700],
     ),
   ),
 );
