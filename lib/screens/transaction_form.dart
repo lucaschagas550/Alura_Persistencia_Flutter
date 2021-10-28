@@ -127,14 +127,12 @@ class _TransactionFormState extends State<TransactionForm> {
 
   Future<void> _showSucessFullMessage(
       Transaction transaction, BuildContext context) async {
-    if (transaction != null) {
       await showDialog(
           context: context,
           builder: (contextDialog) {
             return SuccessDialog('sucessful transaction');
           });
       Navigator.pop(context);
-    }
   }
 
   Future<Transaction> _send(Transaction transactionCreated, String password,

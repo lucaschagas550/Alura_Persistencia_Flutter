@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:bytebank/components/theme.dart';
+import 'package:bytebank/screens/counter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,22 +41,8 @@ class BytebankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, //remove canto superior a flag de debug
-      theme: ThemeData(
-        primaryColor: Colors.green[900],
-        colorScheme: ColorScheme.light(primary: Colors.green.shade900),
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.green[700],
-          textTheme: ButtonTextTheme.primary,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.green[700],
-          ),
-        ),
-      ),
-
-      home: DashBoard(),
+      theme: bytebankTheme,
+      home: CounterContainer(),
     );
   }
 }
