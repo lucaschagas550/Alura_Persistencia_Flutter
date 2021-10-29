@@ -17,10 +17,12 @@ class DashboardContainer extends StatelessWidget {
 class DashBoardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final name = context.read<NameCubit>().state;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome $name"),
+        //misturando um blocbuilder (que é um observe de eventos) com UI
+        title: BlocBuilder<NameCubit, String>(
+          builder: (context, state) => Text("Welcome $state"),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,35 +34,38 @@ class DashBoardView extends StatelessWidget {
           ),
           // SingleChildScrollView(
           //   scrollDirection: Axis.horizontal,
-          Container(
-            height: 120,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              //permite colocar componentes um ao lado do outro
-              children: <Widget>[
-                _FeatureItem(
-                  'Transfer',
-                  Icons.monetization_on,
-                  onClick: () {
-                    _showContactsList(context);
-                  },
-                ),
-                _FeatureItem(
-                  'Transaction Feed',
-                  Icons.description,
-                  onClick: () {
-                    _showTransactionsList(context);
-                  },
-                ),
-                _FeatureItem(
-                  'Change Name',
-                  Icons.person_outline,
-                  onClick: () {
-                    _showChangeName(context);
-                    print("Scroll horizontal em linha");
-                  },
-                ),
-              ],
+          SingleChildScrollView(
+            // resolve problema da tela estourar proporção
+            child: Container(
+              height: 120,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                //permite colocar componentes um ao lado do outro
+                children: <Widget>[
+                  _FeatureItem(
+                    'Transfer',
+                    Icons.monetization_on,
+                    onClick: () {
+                      _showContactsList(context);
+                    },
+                  ),
+                  _FeatureItem(
+                    'Transaction Feed',
+                    Icons.description,
+                    onClick: () {
+                      _showTransactionsList(context);
+                    },
+                  ),
+                  _FeatureItem(
+                    'Change Name',
+                    Icons.person_outline,
+                    onClick: () {
+                      _showChangeName(context);
+                      print("Scroll horizontal em linha");
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
