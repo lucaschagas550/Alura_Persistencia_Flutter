@@ -10,10 +10,7 @@ class NameCubit extends Cubit<String> {
 class NameContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NameCubit("Guilherme"),
-      child: NameView(),
-    );
+    return NameView();
   }
 }
 
@@ -24,7 +21,6 @@ class NameView extends StatelessWidget {
     // agora não tem problema essa abordagem
     // pois não vamos fazer um rebuild quando o estado é alterado
     _nameController.text = context.read<NameCubit>().state;
-    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         title: Text("Change name"),
@@ -47,6 +43,7 @@ class NameView extends StatelessWidget {
                 onPressed: () {
                   final name = _nameController.text;
                   context.read<NameCubit>().change(name);
+                  Navigator.pop(context);
                 },
               ),
             ),
