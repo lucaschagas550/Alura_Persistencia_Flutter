@@ -1,3 +1,5 @@
+import 'package:bytebank/components/container.dart';
+import 'package:bytebank/models/name.dart';
 import 'package:bytebank/screens/contacts_list.dart';
 import 'package:bytebank/screens/name.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'transactions_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DashboardContainer extends StatelessWidget {
+class DashboardContainer extends BlocContainer {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => NameCubit("Guilherme"),
@@ -24,51 +26,57 @@ class DashBoardView extends StatelessWidget {
           builder: (context, state) => Text("Welcome $state"),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset("images/bytebank_logo.png"),
-          ),
-          // SingleChildScrollView(
-          //   scrollDirection: Axis.horizontal,
-          SingleChildScrollView(
-            // resolve problema da tela estourar proporção
-            child: Container(
-              height: 120,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                //permite colocar componentes um ao lado do outro
-                children: <Widget>[
-                  _FeatureItem(
-                    'Transfer',
-                    Icons.monetization_on,
-                    onClick: () {
-                      _showContactsList(context);
-                    },
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset("images/bytebank_logo.png"),
+            ),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: SingleChildScrollView(
+                // resolve problema da tela estourar proporção
+                child: Container(
+                  height: 120,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    //permite colocar componentes um ao lado do outro
+                    children: <Widget>[
+                      _FeatureItem(
+                        'Transfer',
+                        Icons.monetization_on,
+                        onClick: () {
+                          _showContactsList(context);
+                        },
+                      ),
+                      _FeatureItem(
+                        'Transaction Feed',
+                        Icons.description,
+                        onClick: () {
+                          _showTransactionsList(context);
+                        },
+                      ),
+                      _FeatureItem(
+                        'Change Name',
+                        Icons.person_outline,
+                        onClick: () {
+                          _showChangeName(context);
+                          print("Scroll horizontal em linha");
+                        },
+                      ),
+                    ],
                   ),
-                  _FeatureItem(
-                    'Transaction Feed',
-                    Icons.description,
-                    onClick: () {
-                      _showTransactionsList(context);
-                    },
-                  ),
-                  _FeatureItem(
-                    'Change Name',
-                    Icons.person_outline,
-                    onClick: () {
-                      _showChangeName(context);
-                      print("Scroll horizontal em linha");
-                    },
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -121,15 +129,16 @@ class _FeatureItem extends StatelessWidget {
 }
 
 //Funcao que chama a tela de contatos
-void _showContactsList(BuildContext context) {
+void _showContactsList(BuildContext blocContext) {
   // FirebaseCrashlytics.instance
   //     .crash(); //crash o app para relatorio no crashlytics
 
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => ContactsList(),
-    ),
-  );
+  push(blocContext, ContactsListContainer());
+  // Navigator.of(context).push(
+  //   MaterialPageRoute(
+  //     builder: (context) => ContactsList(),
+  //   ),
+  // );
 }
 
 void _showTransactionsList(BuildContext context) {
