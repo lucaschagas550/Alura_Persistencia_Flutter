@@ -17,12 +17,12 @@ class TransactionWebClient {
     Map<String, dynamic> transactionMap = _toMap(transaction);
     final String transactionJson = jsonEncode(transactionMap);
 
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 2));
 
     final Response response = await client.post(Uri.parse(baseUrl),
         headers: {
           'Content-type': 'application/json',
-          'password': '1000',
+          'password': password, //1000 PARA SUCESSO
         },
         body: transactionJson);
 

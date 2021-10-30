@@ -21,30 +21,33 @@ class NameView extends StatelessWidget {
       appBar: AppBar(
         title: Text("Change name"),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _nameController,
-            decoration: InputDecoration(
-              labelText: "Desired name:",
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: "Desired name:",
+              ),
+              style: TextStyle(fontSize: 24.0),
             ),
-            style: TextStyle(fontSize: 24.0),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: SizedBox(
-              width: double.maxFinite,
-              child: ElevatedButton(
-                child: Text("Change"),
-                onPressed: () {
-                  final name = _nameController.text;
-                  context.read<NameCubit>().change(name);
-                  Navigator.pop(context);
-                },
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: SizedBox(
+                width: double.maxFinite,
+                child: ElevatedButton(
+                  child: Text("Change"),
+                  onPressed: () {
+                    final name = _nameController.text;
+                    context.read<NameCubit>().change(name);
+                    Navigator.pop(context);
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
