@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bytebank/components/container.dart';
 import 'package:bytebank/components/theme.dart';
 import 'package:bytebank/screens/counter.dart';
 import 'package:bytebank/screens/name.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'components/localization.dart';
 import 'screens/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,7 +57,10 @@ class BytebankApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: bytebankTheme,
-      home: DashboardContainer(),
+      home: LocalizationContainer(
+        child: DashboardContainer(),
+      ),
     );
   }
 }
+

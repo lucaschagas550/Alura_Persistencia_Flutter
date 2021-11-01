@@ -1,4 +1,5 @@
 import 'package:bytebank/components/container.dart';
+import 'package:bytebank/components/localization.dart';
 import 'package:bytebank/models/name.dart';
 import 'package:bytebank/screens/contacts_list.dart';
 import 'package:bytebank/screens/name.dart';
@@ -19,6 +20,7 @@ class DashboardContainer extends BlocContainer {
 class DashBoardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final i18n = DashBoardViewi18n(context);
     return Scaffold(
       appBar: AppBar(
         //misturando um blocbuilder (que é um observe de eventos) com UI
@@ -49,21 +51,21 @@ class DashBoardView extends StatelessWidget {
                     //permite colocar componentes um ao lado do outro
                     children: <Widget>[
                       _FeatureItem(
-                        'Transfer',
+                        i18n.transfer,
                         Icons.monetization_on,
                         onClick: () {
                           _showContactsList(context);
                         },
                       ),
                       _FeatureItem(
-                        'Transaction Feed',
+                        i18n.transaction_feed,
                         Icons.description,
                         onClick: () {
                           _showTransactionsList(context);
                         },
                       ),
                       _FeatureItem(
-                        'Change Name',
+                        i18n.change_name,
                         Icons.person_outline,
                         onClick: () {
                           _showChangeName(context);
@@ -81,6 +83,20 @@ class DashBoardView extends StatelessWidget {
     );
   }
 }
+
+class DashBoardViewi18n extends ViewI18N {
+  DashBoardViewi18n(BuildContext context) : super(context);
+
+  String get transfer => localize({"pt-br": "Transferir", "en": "Transfer"});
+
+  String get transaction_feed =>
+      localize({"pt-br": "Transações", "en": "Transaction Feed"});
+
+  String get change_name =>
+      localize({"pt-br": "Mudar nome", "en": 'Change name'});
+}
+
+
 
 class _FeatureItem extends StatelessWidget {
   final String name;
