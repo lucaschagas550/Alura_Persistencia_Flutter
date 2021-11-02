@@ -34,6 +34,8 @@ class ViewI18N {
   }
 
   String localize(Map<String, String> map) {
+    assert(map.isNotEmpty); // garante q o valor n seja null
+    assert(map.containsKey(_language)); //garante q a lingua exista
     return map[this._language].toString();
   }
 }

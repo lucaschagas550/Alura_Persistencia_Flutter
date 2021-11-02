@@ -58,14 +58,14 @@ class DashBoardView extends StatelessWidget {
                         },
                       ),
                       _FeatureItem(
-                        i18n.transaction_feed,
+                        i18n.transactionFeed,
                         Icons.description,
                         onClick: () {
                           _showTransactionsList(context);
                         },
                       ),
                       _FeatureItem(
-                        i18n.change_name,
+                        i18n.changeName,
                         Icons.person_outline,
                         onClick: () {
                           _showChangeName(context);
@@ -87,16 +87,15 @@ class DashBoardView extends StatelessWidget {
 class DashBoardViewi18n extends ViewI18N {
   DashBoardViewi18n(BuildContext context) : super(context);
 
+  //_ É para constante definir se vai ser constante ou não change_name
   String get transfer => localize({"pt-br": "Transferir", "en": "Transfer"});
 
-  String get transaction_feed =>
+  String get transactionFeed =>
       localize({"pt-br": "Transações", "en": "Transaction Feed"});
 
-  String get change_name =>
+  String get changeName =>
       localize({"pt-br": "Mudar nome", "en": 'Change name'});
 }
-
-
 
 class _FeatureItem extends StatelessWidget {
   final String name;
